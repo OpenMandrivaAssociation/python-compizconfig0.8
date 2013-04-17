@@ -10,7 +10,7 @@
 %if  %{git}
 %define srcname %{oname}-compiz-%{oversion}.tar.bz2
 %define distname %{oname}-compiz-%{oversion}
-%define rel 0.%{git}.1
+%define rel 0.%{git}.2
 %else
 %define srcname %{oname}-%{version}.tar.bz2
 %define distname %{oname}-%{version}
@@ -29,7 +29,6 @@ BuildRequires:	compiz0.8-devel
 BuildRequires:	compizconfig0.8-devel
 BuildRequires:	pygtk2.0-devel
 BuildRequires:	python-pyrex
-Requires:	compizconfig0.8-devel
 Conflicts:	python-%{shortname} > 0.9
 Conflicts:	%{_lib}%{oname}
 Conflicts:	%{_lib}%{oname}-devel
