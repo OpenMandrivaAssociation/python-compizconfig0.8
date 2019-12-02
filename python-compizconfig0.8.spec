@@ -29,7 +29,7 @@ autoreconf -vfi
 export PYTHON=%{__python}
 %configure \
 	--disable-static \
-	--with-cython=cython-3
+	--with-cython=cython
 %make_build
 
 %install
