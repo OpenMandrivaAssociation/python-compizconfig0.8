@@ -8,7 +8,7 @@ Url:		https://github.com/compiz-reloaded/compizconfig-python
 Source0:	https://github.com/compiz-reloaded/compizconfig-python/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires:	python-devel
 BuildRequires:	python-cython
-BuildRequires:	libcompizconfig-devel
+BuildRequires:	pkgconfig(libcompizconfig)
 BuildRequires:	pkgconfig(glib-2.0)
 Requires:	compiz
 
