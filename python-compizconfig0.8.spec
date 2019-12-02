@@ -1,59 +1,45 @@
-%define __noautoprov 'pkgconfig(.*)'
-%define __noautoreq 'pkgconfig\\(libcompizconfig\\)'
-
-%define shortname compizconfig
-%define oname compizconfig-python
-%define oversion 0.8
-
-%define git 20130330
-
-%if  %{git}
-%define srcname %{oname}-compiz-%{oversion}.tar.bz2
-%define distname %{oname}-compiz-%{oversion}
-%define rel 0.%{git}.2
-%else
-%define srcname %{oname}-%{version}.tar.bz2
-%define distname %{oname}-%{version}
-%define rel 1
-%endif
-
-Name:		python-%{shortname}%{oversion}
-Version:	0.8.5
-Release:	%{rel}
+Name:		compizconfig-python
+Version:	0.8.16
+Release:	%mkrel 4
 Summary:	Python bindings for libcompizconfig
 Group:		System/X11
-License:	GPL
-URL:		http://www.compiz.org/
-Source:		http://cgit.compiz.org/compiz/%{shortname}/%{oname}/snapshot/%{srcname}
-BuildRequires:	compiz0.8-devel
-BuildRequires:	compizconfig0.8-devel
-BuildRequires:	pygtk2.0-devel
-BuildRequires:	python-pyrex
-Conflicts:	python-%{shortname} > 0.9
-Conflicts:	%{_lib}%{oname}
-Conflicts:	%{_lib}%{oname}-devel
+License:	LGPLv2+
+Url:		https://github.com/compiz-reloaded/compizconfig-python
+Source0:	https://github.com/compiz-reloaded/compizconfig-python/archive/v%{version}/%{name}-%{version}.tar.gz
+BuildRequires:	python3-devel
+BuildRequires:	python3-cython
+BuildRequires:	libcompizconfig-devel
+BuildRequires:	pkgconfig(glib-2.0)
+Requires:	compiz >= 1:0.8.16
+Obsoletes:	%{_lib}compizconfig-python < 0.9.13.1-7
 
 %description
-Python bindings for libcompizconfig.
-
-%files
-%{py_platsitedir}/%{shortname}.so
-%{_libdir}/pkgconfig/%{oname}.pc
+Python bindings for libcompizconfig
 
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q -n %{distname}
+%setup -q
+
+# make autoreconf more happy
+mkdir -p m4
 
 %build
-%if %{git}
-# This is a GIT snapshot, so we need to generate makefiles.
-  sh autogen.sh -V
-%endif
+autoreconf -vfi
 
-%configure2_5x --disable-static
-%make
+export PYTHON=%{__python3}
+%configure2_5x \
+	--disable-static \
+	--with-cython=cython-3
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
+# we don't want these
+find %{buildroot} -name "*.la" -delete
+rm -rf %{buildroot}%{_libdir}/pkgconfig/compizconfig-python.pc
+
+%files
+%doc COPYING NEWS
+%{python3_sitearch}/compizconfig.so
