@@ -1,5 +1,5 @@
 Name:		compizconfig-python
-Version:	0.8.16
+Version:	0.8.18
 Release:	1
 Summary:	Python bindings for libcompizconfig
 Group:		System/X11
